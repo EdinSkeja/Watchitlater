@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<!-- This HTML page renders the documentation for [Brocco](?brocco.js) and
+     also serves as an example of how to create dynamic documentation
+     using it. -->
+<link rel="stylesheet" href="styles/css/docco.css">
+<title></title>
+<div id="container">
+  <div id="background"></div>
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        <!-- These are links for the pages that will
+             be documented. <code>[jump-to.js](?jump-to.js)</code>
+             automatically turns them into real links on page load. -->
+        <a class="source">scripts/views/app.js</a>
+        <a class="source">bootstrap.js</a>
+        <a class="source">coffeetest.coffee</a>
+        <a class="source">index.html</a>
+        <a class="source">logger.js</a>
+        <a class="source">src/mymodel.js</a>
+        <a class="source">sweettest.js</a>
+        <a class="source">tests/test.js</a>
+        <a class="source">tests/test-mymodel.js</a>
+        <a class="source">test.html</a>
+      </div>
+  </div>
+</div>
+<script src="scripts/vendor/showdown.js"></script>
+<script src="scripts/vendor/codemirror/codemirror.js"></script>
+<script src="scripts/vendor/codemirror/codemirror-javascript-mode.js"></script>
+<script src="scripts/vendor/codemirror/codemirror-xml-mode.js"></script>
+<script src="scripts/vendor/codemirror/codemirror-css-mode.js"></script>
+<script src="scripts/vendor/codemirror/codemirror-htmlmixed-mode.js"></script>
+<script src="scripts/vendor/brocco/brocco.js"></script>
+<script src="scripts/vendor/brocco/html-and-css.js"></script>
+<script src="scripts/vendor/brocco/jump-to.js"></script>
