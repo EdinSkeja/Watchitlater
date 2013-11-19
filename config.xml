@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "se.edport.tda"
+        versionCode="10"
+        version   = "1.0.0">
+
+    <gap:platform name="android" />
+    <gap:platform name="ios" />
+    <!-- versionCode is optional and Android only -->
+
+    <name>TDA</name>
+
+    <description>
+        Short description
+    </description>
+
+    <author href="https://edport.se" email="edin.skeja@me.com">
+        Edin Skeja
+    </author>
+
+</widget>
