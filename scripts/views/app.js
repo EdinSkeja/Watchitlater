@@ -1,3 +1,4 @@
+//Main application..
 define(['backbone'], function(Backbone) {
 	var App = Backbone.View.extend({
         el: $('#hello_container'),
@@ -5,7 +6,8 @@ define(['backbone'], function(Backbone) {
             this.render();
         },
         render: function() {
-            var variables = { hello: "Hello World!" };
+           // the `variables` 
+            var variables = { hello: "Hello World!" }; 
             var template = _.template( $("#hello_template").html(), variables );
             $(this.el).html(template);
         }
