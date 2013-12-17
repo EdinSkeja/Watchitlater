@@ -1,4 +1,4 @@
-<span id="todo-count"><strong><%= remaining %></strong> <%= remaining == 1 ? 'movie' : 'movies' %> left</span>
-<% if ( completed ) { %>
-<button id="clear-completed">Clear watched (<%= completed %>)</button>
+<span id="movie-count"><strong><%= remaining %></strong> <%= remaining == 1 ? 'movie' : 'movies' %> left to watch</span>
+<% if ( watched ) { %>
+<button id="clear-completed">Clear watched (<%= watched %>)</button>
 <% } %>

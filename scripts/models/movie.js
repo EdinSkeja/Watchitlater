@@ -1,12 +1,13 @@
-define(["backbone", "backbone-validation"], function(Backbone){
-
-    var TodoModel = Backbone.Model.extend({
+define(["backbone", 
+        "backbone-validation"
+],  function(Backbone){
+    
+    var MovieModel = Backbone.Model.extend({
        
         defaults: {
             title: "",
-            poster: "",
-            imdbVotes: "",
-            completed: false
+            imdbRating: "",
+            watched: false
         },
         validation: {
             title: [
@@ -18,9 +19,9 @@ define(["backbone", "backbone-validation"], function(Backbone){
         },
         toggle: function () {
             this.save({
-                    completed: !this.get('completed')
+                    watched: !this.get('watched')
             });
         }
     });
-    return TodoModel;
+    return MovieModel;
 });

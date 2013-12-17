@@ -3,23 +3,21 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'text!templates/todos.html',
+	'text!templates/movies.html',
 	'common'
-], function ($, _, Backbone, todosTemplate, Common) {
+], function ($, _, Backbone, mlistTemplate, Common) {
 	'use strict';
 
 	var TodoView = Backbone.View.extend({
 
 		tagName:  'li',
 
-		template: _.template(todosTemplate),
+		template: _.template(mlistTemplate),
 
 		events: {
-			'click .toggle':	'toggleCompleted',
-			'dblclick label':	'edit',
+			'click .toggle':	'toggleWatched',
 			'click .destroy':	'clear',
-			'keypress .edit':	'updateOnEnter',
-			'blur .edit':		'close'
+			'keypress .edit':	'updateOnEnter'
 		},
 
 		initialize: function () {
@@ -30,7 +28,7 @@ define([
 
 		render: function () {
 			this.$el.html(this.template(this.model.toJSON()));
-			this.$el.toggleClass('completed', this.model.get('completed'));
+			this.$el.toggleClass('watched', this.model.get('watched'));
 
 			this.toggleVisible();
 			return this;
@@ -41,14 +39,14 @@ define([
 		},
 
 		isHidden: function () {
-			var isCompleted = this.model.get('completed');
+			var isWatched = this.model.get('watched');
 			return (// hidden cases only
-				(!isCompleted && Common.TodoFilter === 'completed') ||
-				(isCompleted && Common.TodoFilter === 'active')
+				(!isWatched && Common.MFilter === 'watched') ||
+				(isWatched && Common.MFilter === 'active')
 			);
 		},
 
-		toggleCompleted: function () {
+		toggleWatched: function () {
 			this.model.toggle();
 		},
 
