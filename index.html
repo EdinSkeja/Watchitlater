@@ -1,22 +1,46 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <link href="styles/css/bootstrap.css" rel="stylesheet">
-  </head>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>RIA</title>
+        <meta name="description" content="RIA, JavaScript">
+        <meta name="author" content="Edin Skeja">
+        <meta name="viewport" content="width=device-width">
+        <link href="styles/css/bootstrap.css" rel="stylesheet">
+    </head>
 
-  <body>
-    <script type="text/template" id="hello_template">
-      <p id="greeting"><%= hello %></p>
-    </script>
-
-    <div id="hello_container"></div>
-    
-
-    <script data-main="scripts/main.js" src="scripts/vendor/require.js"></script>
-  </body>
+    <body>
+        <div class="container" >
+            <section id="todoapp">
+    			<header id="header">
+    				<h1>Watch it later</h1>
+    				<div class="input-group">
+    				<input type="text" class="form-control" id="new-todo" placeholder="Write the movie title?" autofocus>
+    				<span class="input-group-btn">
+                        <button id="search-btn" class="btn btn-default" type="button">Go!</button>
+                    </span>
+                    </div>
+    			</header>
+    			</br>
+    			</br>
+    			</br>
+    			<section id="search">
+    				
+    			</section>
+    			<footer id="footer"></footer>
+    			<section id="main">
+    				<input id="toggle-all" type="checkbox">
+    				<label for="toggle-all">Mark all as watched</label>
+    				<ul id="todo-list"></ul>
+    			</section>
+    			<footer id="footer"></footer>
+    		</section>
+    		<footer id="info">
+    			<p>Written by <a href="http://edport.se/">Edin Skeja</a></p>
+    		</footer>
+            
+        </div>
+        <script data-main="scripts/main.js" src="scripts/vendor/require.js"></script>
+    </body>
 </html>
