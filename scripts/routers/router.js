@@ -3,19 +3,26 @@ console.log('Loading Router..');
 define(['backbone', 
         'underscore', 
         'jquery',
-        'views/app'
+        'views/app',
+        'views/about'
         
-], function(Backbone, _, $, AppView) {
+], function(Backbone, _, $, AppView, AboutView) {
     
     var router = Backbone.Router.extend({
  
         routes: {
-            "": "home"
+            "": "index",
+            "about": "about"
         },
         
-        home: function() {
+        index: function() {
             new AppView();
+        },
+        about: function() {
+            new AboutView();
         }
+        
+        
 	});
 	return router;
 });

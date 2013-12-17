@@ -20,8 +20,9 @@ define([
             'click #search-btn':        'searchOnClick',
 			'keypress #new-search':		'createOnEnter',
 			'click #clear-completed':	'clearWatched',
-			'click #toggle-all':		'toggleAllComplete',
-			'click #add-to-list':       'createNew'
+			'click #toggle-all':		'toggleAllWatched',
+			'click .btn-default':       'createNew',
+			'click .btn-btn-primary':        'choosingMovie'
 		},
 
 		initialize: function () {
@@ -30,7 +31,7 @@ define([
 			this.$footer = this.$('#footer');
 			this.$main = this.$('#main');
 			this.$rating = this.$('#imdbRating');
-			this.$poster = this.$('#Poster');
+			this.$title = this.$('#Title');
 
 			this.listenTo(Movies, 'add', this.addOne);
 			this.listenTo(Movies, 'reset', this.addAll);
@@ -88,8 +89,9 @@ define([
 		},
 
 		newAttributes: function () {
+		    console.log(this.$title.text());
 			return {
-				title: this.$input.val().trim(),
+				title: this.$title.text(),
 				order: Movies.nextOrder(),
 				watched: false,
 				imdbRating: this.$rating.text(),
@@ -105,14 +107,15 @@ define([
 				return;
 				
 			}
-			$(".my-new-list").remove();
-            console.log(this.$input.val());
+			$(".search-list").remove();
+			$(".the-movie").remove();
             this.searchMovies();
 			this.$input.val('');
 		},
 		
 		searchOnClick: function () {
-            $(".my-new-list").remove();
+            $(".search-list").remove();
+            $(".the-movie").remove();
             console.log(this.$input.val());
             
             this.searchMovies();
@@ -120,13 +123,15 @@ define([
             this.$input.val('');
 		},
        
-        searchMovies: function () {
-            $.getJSON( "http://www.omdbapi.com/?t="+this.$input.val()+"&plot=full", function( data ) {
-                if(data != null) {
+        chooseMovie: function(cMovie)  {
+            var m = cMovie;
+            $.getJSON( "http://www.omdbapi.com/?t="+m+"&plot=full", function( data ) {
+                if(data !== null) {
                     var items = [];
-                    var contentArr = new Array ('Title', 'Year', 'Genre', 'Actors', 'Plot', 'imdbRating', 'Poster', 'Type');
                     $.each( data, function( key, val ) {
                         if(key == 'Title') {
+                            
+                            items.push('</br><button id="'+val+'" class="btn-default" type="button">Add to list!</button>');
                             items.push( "<h3 id='" + key + "'>" + val + "</h3>" );
                         }
                         else if (key == 'Year') {
@@ -157,12 +162,14 @@ define([
                                 items.push( "<img id='" + key + "' src='styles/img/noImage.gif' style='width:130px; height: 200px;'/>" );
                             }
                         }
-                        
+                        else if (key == 'Error') {
+                            items.push("<h2 id='"+ key +"'>"+ val +"</h2>");
+                        }
                         
                     });
-                
+                    
                     $( "<ul/>", {
-                        "class": "my-new-list",
+                        "class": "the-movie",
                         html: items.join( "" )
                     }).appendTo( "#search" );
                 }
@@ -171,13 +178,50 @@ define([
             });	
             
         },
-	
+        
+        searchMovies: function () {
+            
+            $.ajax({type: "GET",
+                url: "http://www.omdbapi.com/?s="+this.$input.val()+"&r=xml",
+                dataType: "xml",
+                success: function(xml) {
+                    var items = [];
+                    $(xml).find('Movie').each(function(index){
+                        if(index < 3) {
+                            var title = $(this).attr('Title');
+                            var year = $(this).attr('Year');
+                            items.push('<li>'+title+' ('+year+') <button id="'+title+'" type="button" class="btn-btn-primary">GO</button></li> ');
+                          //  $('#search').append('<li>'+title+'('+year+')</li>');
+                        }
+                    });
+                    
+                    $( "<ul/>", {
+                        "class": "search-list",
+                        html: items.join("")
+                    }).appendTo("#search");
+                    
+                }
+                
+            });
+            
+        
+            
+            
+        },
+        
+        choosingMovie: function () {
+           // $(".search-list").remove();
+           
+            this.chooseMovie("Thor");
+              
+        },
+        
 		clearWatched: function () {
 			_.invoke(Movies.watched(), 'destroy');
 			return false;
 		},
 
-		toggleAllComplete: function () {
+		toggleAllWatched: function () {
 			var watched = this.allCheckbox.checked;
 
 			Movies.each(function (movie) {

@@ -1,6 +1,6 @@
 // My main test file. This should load all test modules, and execute them.
 
-define(["tests/test-app"],function(){
+define(["tests/test-app","vendor/jquery"],function($){
 
 	var jasmineEnv = jasmine.getEnv();
 	jasmineEnv.updateInterval = 1000;
