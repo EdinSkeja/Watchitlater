@@ -17,12 +17,12 @@ define([
 		template: _.template(statsTemplate),
 
 		events: {
-            'click #search-btn':        'searchOnClick',
+            'click #search-btn':        'makeSearch',
 			'keypress #new-search':		'createOnEnter',
 			'click #clear-completed':	'clearWatched',
 			'click #toggle-all':		'toggleAllWatched',
-			'click .btn-default':       'createNew',
-			'click .btn-btn-primary':        'choosingMovie'
+			'click #new-movie':         'createNew',
+			'click #choose-movie':   'choosingMovie'
 		},
 
 		initialize: function () {
@@ -72,7 +72,7 @@ define([
 
 		addOne: function (movie) {
 			var view = new MovieView({ model: movie });
-			$('#movie-list').append(view.render().el);
+			$('.list-group').append(view.render().el);
 		},
 
 		addAll: function () {
@@ -88,24 +88,25 @@ define([
 			Movies.each(this.filterOne, this);
 		},
 
-		newAttributes: function () {
+		newAttributes: function (title1, rating) {
 		    console.log(this.$title.text());
 			return {
-				title: this.$title.text(),
+				title: title1,
 				order: Movies.nextOrder(),
 				watched: false,
-				imdbRating: this.$rating.text(),
+				imdbRating: rating
 			};
 		},
 		
-		createNew: function () {
-		    Movies.create(this.newAttributes());
+		createNew: function (e) {
+            var title = $(e.srcElement || e.target).attr('select-movie');
+            var rating = $('#imdbRating').text();
+            Movies.create(this.newAttributes(title, rating));
 		},
 		
 		createOnEnter: function (e) {
-			if (e.which !== Common.ENTER_KEY ) {
+		    if (e.which !== Common.ENTER_KEY ) {
 				return;
-				
 			}
 			$(".search-list").remove();
 			$(".the-movie").remove();
@@ -113,17 +114,15 @@ define([
 			this.$input.val('');
 		},
 		
-		searchOnClick: function () {
+		makeSearch: function (e) {
             $(".search-list").remove();
             $(".the-movie").remove();
-            console.log(this.$input.val());
-            
             this.searchMovies();
-            
             this.$input.val('');
 		},
        
         chooseMovie: function(cMovie)  {
+            //get json objects 
             var m = cMovie;
             $.getJSON( "http://www.omdbapi.com/?t="+m+"&plot=full", function( data ) {
                 if(data !== null) {
@@ -131,7 +130,7 @@ define([
                     $.each( data, function( key, val ) {
                         if(key == 'Title') {
                             
-                            items.push('</br><button id="'+val+'" class="btn-default" type="button">Add to list!</button>');
+                            items.push('</br><button id="new-movie" class="btn btn-default" type="button" select-movie="'+val+'">Add to list!</button>');
                             items.push( "<h3 id='" + key + "'>" + val + "</h3>" );
                         }
                         else if (key == 'Year') {
@@ -168,7 +167,7 @@ define([
                         
                     });
                     
-                    $( "<ul/>", {
+                    $( "<div/>", {
                         "class": "the-movie",
                         html: items.join( "" )
                     }).appendTo( "#search" );
@@ -180,7 +179,7 @@ define([
         },
         
         searchMovies: function () {
-            
+            //Using xml to get search list..
             $.ajax({type: "GET",
                 url: "http://www.omdbapi.com/?s="+this.$input.val()+"&r=xml",
                 dataType: "xml",
@@ -190,7 +189,7 @@ define([
                         if(index < 3) {
                             var title = $(this).attr('Title');
                             var year = $(this).attr('Year');
-                            items.push('<li>'+title+' ('+year+') <button id="'+title+'" type="button" class="btn-btn-primary">GO</button></li> ');
+                            items.push('<li>'+title+' ('+year+') <button id="choose-movie" type="button" class="btn btn-primary" data-movie="'+ title+'">&#187;</button></li> ');
                           //  $('#search').append('<li>'+title+'('+year+')</li>');
                         }
                     });
@@ -209,10 +208,10 @@ define([
             
         },
         
-        choosingMovie: function () {
-           // $(".search-list").remove();
-           
-            this.chooseMovie("Thor");
+        choosingMovie: function (e) {
+            $(".the-movie").remove();
+            
+            this.chooseMovie($(e.srcElement || e.target).attr('data-movie'));
               
         },
         

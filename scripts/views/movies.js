@@ -15,8 +15,8 @@ define([
 		template: _.template(mlistTemplate),
 
 		events: {
-			'click .toggle':	'toggleWatched',
-			'click .destroy':	'clear',
+			'click #toggle':	'toggleWatched',
+			'click #destroy':	'clear',
 			'keypress .edit':	'updateOnEnter'
 		},
 
@@ -40,7 +40,7 @@ define([
 
 		isHidden: function () {
 			var isWatched = this.model.get('watched');
-			return (// hidden cases only
+			return (
 				(!isWatched && Common.MFilter === 'watched') ||
 				(isWatched && Common.MFilter === 'active')
 			);

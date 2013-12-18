@@ -8,19 +8,33 @@
         <meta name="author" content="Edin Skeja">
         <meta name="viewport" content="width=device-width">
         <link href="styles/css/bootstrap.css" rel="stylesheet">
+        <link href="styles/css/style.css" rel="stylesheet">
     </head>
 
     <body>
-        <div class="container" >
-        
-            <ul class="nav nav-tabs">
-              <li class="active"><a href="index.html">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="brocco.html">Brocco</a></li>
-            </ul>
+        <div class="container1" >
+            <div class="navbar navbar-inverse">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Watch it later</a>
+                </div>
+                <div class="navbar-collapse collapse navbar-inverse-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="index.html">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="http://edport.se">Written by Edin</a></li>
+                    </ul>
+                </div><!-- /.nav-collapse -->
+            </div>
+            
             <section id="movielistapp">
     			<header id="header">
-    				<h1>Watch it later</h1>
     				<div class="input-group">
     				<input type="text" class="form-control" id="new-search" placeholder="Write the movie title?" autofocus>
     				<span class="input-group-btn">
@@ -29,24 +43,34 @@
                     </div>
     			</header>
     			<section id="search">
-    				
     			</section>
-    			
     			<footer id="footer">
     			    
     			</footer>
     			<section id="main">
-    				<input id="toggle-all" type="checkbox">
-    				<label for="toggle-all">Mark all as watched</label>
-    				<ul id="movie-list"></ul>
+        			<div class="row">
+                        <div class="col-lg-6">
+                        
+            				<div class="panel panel-success">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Watch list</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <ul class="list-group"></ul>
+                                </div>
+                                  <input id="toggle-all" type="checkbox">
+                				<label for="toggle-all">Mark all as watched</label>
+                            </div>
+        				</div>
+    				</div>
     			</section>
     			<footer id="footer"></footer>
     		</section>
-    		<footer id="info">
-    			<p>Written by <a href="http://edport.se/">Edin Skeja</a></p>
-    		</footer>
             
         </div>
+        
+        <script src="scripts/vendor/bootstrap.js"></script>
         <script data-main="scripts/main.js" src="scripts/vendor/require.js"></script>
+        
     </body>
 </html>

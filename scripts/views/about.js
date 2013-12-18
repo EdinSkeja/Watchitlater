@@ -7,16 +7,18 @@ define([
     
     var AboutView = Backbone.View.extend({
         
+        el: '#movielistapp',
+        
         template: _.template(aboutTemplate),
 
-                initialize: function() {
+        initialize: function() {
 
-                },
+        },
 
-                render: function() {
-                        this.$el.html(this.template(this));
-                        return this;
-                }
+        render: function() {
+                this.$el.html(this.template(this));
+                return this;
+        }
             
     });
     return AboutView;
