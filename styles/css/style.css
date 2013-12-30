@@ -62,3 +62,11 @@ label.css-label {
 .form-control {
     font-size: 14px;
 }
+#Poster {
+    float:left;
+    height: 220px;
+    margin: 5px;
+}
+#clear-completed {
+    padding: 6px 12px;
+}

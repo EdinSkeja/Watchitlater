@@ -17,12 +17,12 @@ define([
 
 		events: {
             'click #search-btn':        'makeSearch',
-			'keypress #new-search':		'createOnEnter',
+			'keypress #new-search':		'searchOnEnter',
 			'click #clear-completed':	'clearWatched',
 			'click #toggle-all':		'toggleAllWatched',
 			'click #new-movie':         'createNew',
 			'click #choose-movie':      'choosingMovie',
-			'dblclick .css-label':         'showMovie'
+			'dblclick .css-label':      'showMovie'
 		},
 
 		initialize: function () {
@@ -101,9 +101,10 @@ define([
             var title = $(e.srcElement || e.target).attr('select-movie');
             var rating = $('#imdbRating').text();
             Movies.create(this.newAttributes(title, rating));
+            $('#new-movie').attr("disabled", true);
 		},
 		
-		createOnEnter: function (e) {
+		searchOnEnter: function (e) {
 		    if (e.which !== Common.ENTER_KEY ) {
 				return;
 			}
@@ -133,17 +134,17 @@ define([
         chooseMovie: function(cMovie)  {
             //get json objects 
             var m = cMovie;
-            $.getJSON( "http://www.omdbapi.com/?t="+m+"&plot=full", function( data ) {
+            $.getJSON( "http://www.omdbapi.com/?t="+m+"&plot=short", function( data ) {
                 if(data !== null) {
                     var items = [];
                     $.each( data, function( key, val ) {
-                        if(key == 'Title') {
+                        if (key == 'Title') {
                             
-                            items.push('</br><button id="new-movie" class="btn btn-success" type="button" select-movie="'+val+'" style="float:right;">+</button>');
+                            items.push('<button id="new-movie" class="btn btn-success" type="button" select-movie="'+val+'" style="float:right;">+</button>');
                             items.push( "<h3 id='" + key + "'>" + val + "</h3>" );
                         }
                         else if (key == 'Year') {
-                            items.push( "<label id='" + key + "'>" + val + "</label>" );
+                            items.push( "<b id='" + key + "'>" + val + "</b>" );
                         }
                         else if (key == 'Genre') {
                             items.push( "<p id='" + key + "'>" + val + "</p>" );
@@ -154,22 +155,23 @@ define([
                         else if (key == 'Plot') {
                             items.push( "<p id='" + key + "'>" + val + "</p>" );
                         }
-                        else if (key == 'imdbRating') {
-                            if (!isNaN(val)) {
-                                items.push( "<p id='" + key + "'>" + val + "</p>" );
-                            }
-                            else {
-                                items.push( "<p id='" + key + "'>No Rating</p>" );
-                            }
-                        }
                         else if (key == 'Poster') {
                             if(val.length > 4) {
-                                items.push( "<img id='" + key + "' src='" + val + "' style='width:130px; height: 200px;'/>" );
+                                items.push( "<img id='" + key + "' src='" + val + "'/>" );
                             }
                             else {
-                                items.push( "<img id='" + key + "' src='styles/img/noImage.gif' style='width:130px; height: 200px;'/>" );
+                                items.push( "<img id='" + key + "' src='styles/img/noImage.gif'/>" );
                             }
                         }
+                        else if (key == 'imdbRating') {
+                            if (!isNaN(val)) {
+                                items.push( "<p id='" + key + "'>Rating: " + val + "</p>" );
+                            }
+                            else {
+                                items.push( "<p id='" + key + "'>No rating yet!</p>" );
+                            }
+                        }
+                        
                         else if (key == 'Error') {
                             items.push("<h2 id='"+ key +"'>"+ val +"</h2>");
                         }
@@ -178,7 +180,7 @@ define([
                     
                     $( "<div/>", {
                         "class": "well",
-                        html: items.join( "" )
+                        html: items[0] + items[6] + items[1] + items[7] + items[2] + items[3] + items[4] + items[5]  
                     }).appendTo( "#single-movie" );
                 }
                 else
@@ -230,7 +232,6 @@ define([
         
         showMovie: function (e) {
             $("#single-movie").empty();
-            console.log('hello');
             this.chooseMovie($(e.srcElement || e.target).attr('data-movie'));
         },
         
