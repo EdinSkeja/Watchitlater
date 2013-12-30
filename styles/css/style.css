@@ -1,10 +1,20 @@
 /*My own styles*/
-
+.hide {
+    display: none;
+}
+.show {
+    
+}
 .list-group {
     list-style-type: none;
 
 }
 .list-group li label {
+    font-size:14px;
+}
+
+.search-list {
+    list-style-type: none;
     font-size:14px;
 }
 
@@ -35,4 +45,20 @@ label.css-label {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+.search-list {
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 0px;
+}
+#choose-movie {
+    padding: 6px 12px;
+}
+.row  {
+    margin-bottom: 10px;
+}
+.form-control {
+    font-size: 14px;
 }

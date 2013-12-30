@@ -1,4 +1,3 @@
-console.log('Conifguring Require..');
 require.config({
     //enforceDefine: true,
 	baseUrl: "scripts/",
@@ -28,6 +27,9 @@ require.config({
         localStorage: {
             deps: ['backbone'],
             exports: 'store'
+        },
+        bootstrap: {
+            deps: ['jquery']
         }
     }
 });
@@ -35,5 +37,4 @@ require.config({
 require(['backbone','routers/router'], function(Backbone, Router) {
     new Router();
     Backbone.history.start();
-	//new AppView();
 });

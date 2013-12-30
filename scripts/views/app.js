@@ -1,4 +1,3 @@
-/*global define*/
 define([
 	'jquery',
 	'underscore',
@@ -8,10 +7,10 @@ define([
 	'text!templates/stats.html',
 	'common'
 ], function ($, _, Backbone, Movies, MovieView, statsTemplate, Common) {
-	'use strict';
     
 	var AppView = Backbone.View.extend({
-        rating: 2,
+        searchs: 0,
+        
 		el: '#movielistapp',
 
 		template: _.template(statsTemplate),
@@ -22,16 +21,18 @@ define([
 			'click #clear-completed':	'clearWatched',
 			'click #toggle-all':		'toggleAllWatched',
 			'click #new-movie':         'createNew',
-			'click #choose-movie':   'choosingMovie'
+			'click #choose-movie':      'choosingMovie',
+			'dblclick .css-label':         'showMovie'
 		},
 
 		initialize: function () {
 			this.allCheckbox = this.$('#toggle-all')[0];
 			this.$input = this.$('#new-search');
-			this.$footer = this.$('#footer');
+			this.$footer = this.$('#left-to-watch');
 			this.$main = this.$('#main');
 			this.$rating = this.$('#imdbRating');
 			this.$title = this.$('#Title');
+			this.$searhlist = this.$('#searchdiv');
 
 			this.listenTo(Movies, 'add', this.addOne);
 			this.listenTo(Movies, 'reset', this.addAll);
@@ -45,7 +46,6 @@ define([
 		render: function () {
 			var watched = Movies.watched().length;
 			var remaining = Movies.remaining().length;
-            
 			if (Movies.length) {
 				this.$main.show();
 				this.$footer.show();
@@ -59,14 +59,13 @@ define([
 					.removeClass('selected')
 					.filter('[href="#/' + (Common.MFilter || '') + '"]')
 					.addClass('selected');
-				
-				
 					
 			} else {
 				this.$main.hide();
 				this.$footer.hide();
 			}
-		
+			
+            
 			this.allCheckbox.checked = !remaining;
 		},
 
@@ -76,7 +75,7 @@ define([
 		},
 
 		addAll: function () {
-			this.$('#todo-list').html('');
+			this.$('.list-group').html('');
 			Movies.each(this.addOne, this);
 		},
 
@@ -89,7 +88,7 @@ define([
 		},
 
 		newAttributes: function (title1, rating) {
-		    console.log(this.$title.text());
+		    
 			return {
 				title: title1,
 				order: Movies.nextOrder(),
@@ -108,15 +107,25 @@ define([
 		    if (e.which !== Common.ENTER_KEY ) {
 				return;
 			}
+			if(this.searchs === 0) {
+		        $('#searchdiv').attr('class', 'show');
+		        this.searchs++;
+		    }
 			$(".search-list").remove();
-			$(".the-movie").remove();
+			$("#single-movie").empty();
             this.searchMovies();
 			this.$input.val('');
 		},
 		
 		makeSearch: function (e) {
+		    if(this.searchs === 0) {
+		        $('#searchdiv').attr('class', 'show');
+		        this.searchs++;
+		    }
             $(".search-list").remove();
-            $(".the-movie").remove();
+            $("#single-movie").empty();
+            
+            
             this.searchMovies();
             this.$input.val('');
 		},
@@ -130,7 +139,7 @@ define([
                     $.each( data, function( key, val ) {
                         if(key == 'Title') {
                             
-                            items.push('</br><button id="new-movie" class="btn btn-default" type="button" select-movie="'+val+'">Add to list!</button>');
+                            items.push('</br><button id="new-movie" class="btn btn-success" type="button" select-movie="'+val+'" style="float:right;">+</button>');
                             items.push( "<h3 id='" + key + "'>" + val + "</h3>" );
                         }
                         else if (key == 'Year') {
@@ -168,9 +177,9 @@ define([
                     });
                     
                     $( "<div/>", {
-                        "class": "the-movie",
+                        "class": "well",
                         html: items.join( "" )
-                    }).appendTo( "#search" );
+                    }).appendTo( "#single-movie" );
                 }
                 else
                     console.log("NULL")
@@ -180,26 +189,31 @@ define([
         
         searchMovies: function () {
             //Using xml to get search list..
+            var name = this.$input.val();
             $.ajax({type: "GET",
-                url: "http://www.omdbapi.com/?s="+this.$input.val()+"&r=xml",
+                url: "http://www.omdbapi.com/?s="+name+"&r=xml",
                 dataType: "xml",
                 success: function(xml) {
                     var items = [];
                     $(xml).find('Movie').each(function(index){
+            
                         if(index < 3) {
                             var title = $(this).attr('Title');
                             var year = $(this).attr('Year');
-                            items.push('<li>'+title+' ('+year+') <button id="choose-movie" type="button" class="btn btn-primary" data-movie="'+ title+'">&#187;</button></li> ');
+                            items.push('<li class="well"><button id="choose-movie" type="button" class="btn btn-primary" data-movie="'+ title+'">&#187;</button><label style=" margin: 10px;">'+title+' ('+year+')</label></li>');
                           //  $('#search').append('<li>'+title+'('+year+')</li>');
                         }
                     });
-                    
+                    $(xml).find('error').each(function(index){
+                        items.push('<li><p>No movies with title: ´'+name+'´</p></li> ');
+                    });
                     $( "<ul/>", {
                         "class": "search-list",
                         html: items.join("")
                     }).appendTo("#search");
                     
-                }
+                },
+                error: function(){alert("Error: Something went wrong");}
                 
             });
             
@@ -209,10 +223,15 @@ define([
         },
         
         choosingMovie: function (e) {
-            $(".the-movie").remove();
-            
+            $("#single-movie").empty();
             this.chooseMovie($(e.srcElement || e.target).attr('data-movie'));
               
+        },
+        
+        showMovie: function (e) {
+            $("#single-movie").empty();
+            console.log('hello');
+            this.chooseMovie($(e.srcElement || e.target).attr('data-movie'));
         },
         
 		clearWatched: function () {

@@ -4,10 +4,10 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>Watch it later</title>
+        <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=0" />
         <meta name="description" content="RIA, JavaScript">
         <meta name="author" content="Edin Skeja">
-        <meta name="viewport" content="width=device-width">
-        <link href="styles/css/bootstrap.css" rel="stylesheet">
+        <link href="styles/css/yeti.css" rel="stylesheet">
         <link href="styles/css/style.css" rel="stylesheet">
     </head>
 
@@ -34,43 +34,55 @@
             </div>
             
             <section id="movielistapp">
-    			<header id="header">
-    				<div class="input-group">
-    				<input type="text" class="form-control" id="new-search" placeholder="Write the movie title?" autofocus>
-    				<span class="input-group-btn">
-                        <button id="search-btn" class="btn btn-default" type="button">Go!</button>
-                    </span>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+        				<div class="input-group">
+            				<input type="text" class="form-control" id="new-search" placeholder="Write the movie/series title?" autofocus>
+            				<span class="input-group-btn">
+                                <button id="search-btn" class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
                     </div>
-    			</header>
-    			<section id="search">
-    			</section>
-    			<footer id="footer">
-    			    
-    			</footer>
-    			<section id="main">
-        			<div class="row">
-                        <div class="col-lg-6">
-                        
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div id="searchdiv" class="hide">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Search list</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="search"></div>
+                				</div>
+                            </div>
+                        </div>
+    			    </div>
+    			    <div class="col-xs-12 col-sm-6 col-md-6">
+    			        <div id="single-movie"></div>
+    			    </div>
+    			</div>
+    			<div class="row">
+    			    <div class="col-xs-12 col-sm-6 col-md-6">
+        			    <section id="main">
             				<div class="panel panel-success">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Watch list</h3>
                                 </div>
                                 <div class="panel-body">
+                                    <input id="toggle-all" type="checkbox" class="css-checkbox">
+                    				<label for="toggle-all" class="css-label">Mark all as watched</label>
                                     <ul class="list-group"></ul>
-                                </div>
-                                  <input id="toggle-all" type="checkbox">
-                				<label for="toggle-all">Mark all as watched</label>
+                                    
+                                    <div id="left-to-watch"></div>
+                				</div>
                             </div>
-        				</div>
-    				</div>
-    			</section>
+        			    </section>
+        			</div>
+    			</div>
     			<footer id="footer"></footer>
     		</section>
-            
         </div>
-        
-        <script src="scripts/vendor/bootstrap.js"></script>
-        <script data-main="scripts/main.js" src="scripts/vendor/require.js"></script>
-        
+    <script data-main="scripts/main.js" src="scripts/vendor/require.js"></script>
+    <script src="scripts/vendor/bootstrap.js"></script>
     </body>
 </html>

@@ -16,8 +16,9 @@ define([
         },
 
         render: function() {
-                this.$el.html(this.template(this));
-                return this;
+            this.$el.html('');
+            this.$el.html(this.template(this));
+            return this;
         }
             
     });

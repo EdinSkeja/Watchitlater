@@ -1,10 +1,8 @@
-/*global define*/
 define(["underscore",
 	    "backbone",
 	    "backbone.localStorage",
 	    "models/movie"
 ], function (_, Backbone, Store, Movie) {
-	'use strict';
 
 	var MoviesCollection = Backbone.Collection.extend({
 		model: Movie,

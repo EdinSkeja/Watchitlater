@@ -1,5 +1,3 @@
-//Main application..
-console.log('Loading Router..');
 define(['backbone', 
         'underscore', 
         'jquery',
@@ -14,7 +12,6 @@ define(['backbone',
             "": "index",
             "about": "about"
         },
-        
         index: function() {
             new AppView();
         },

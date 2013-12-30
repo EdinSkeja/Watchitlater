@@ -1,4 +1,3 @@
-/*global define*/
 define([
 	'jquery',
 	'underscore',
@@ -6,18 +5,17 @@ define([
 	'text!templates/movies.html',
 	'common'
 ], function ($, _, Backbone, mlistTemplate, Common) {
-	'use strict';
 
-	var TodoView = Backbone.View.extend({
+	var MovieView = Backbone.View.extend({
 
 		tagName:  'li',
 
 		template: _.template(mlistTemplate),
 
 		events: {
-			'click #toggle':	'toggleWatched',
-			'click #destroy':	'clear',
-			'keypress .edit':	'updateOnEnter'
+			'click .css-checkbox':	'toggleWatched',
+			'click #destroy':       'clear',
+            'keypress .edit':       'updateOnEnter'
 		},
 
 		initialize: function () {
@@ -29,7 +27,6 @@ define([
 		render: function () {
 			this.$el.html(this.template(this.model.toJSON()));
 			this.$el.toggleClass('watched', this.model.get('watched'));
-
 			this.toggleVisible();
 			return this;
 		},
@@ -55,5 +52,5 @@ define([
 		}
 	});
 
-	return TodoView;
+	return MovieView;
 });

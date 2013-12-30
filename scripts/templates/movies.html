@@ -1,3 +1,3 @@
-<input id="toggle" class="css-checkbox" type="checkbox" <%= watched ? 'checked' : '' %>>
-<label class="css-label" for="toggle"><%- title %></label>
+<input id="toggle <%- order %>" class="css-checkbox" type="checkbox" <%= watched ? 'checked' : '' %>>
+<label class="css-label" for="toggle <%- order %>" data-movie="<%- title %>"><%- title %></label>
 <button id="destroy" class="close" aria-hidden="true">&times;</button>
