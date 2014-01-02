@@ -15,6 +15,8 @@ define(['jquery',
         },
 
         render: function() {
+            $('#home').toggleClass('notactive')
+            $('#about').addClass('active');
             this.$el.empty();
             this.$el.html(this.template(this));
             return this;

@@ -8,10 +8,10 @@ define(['jquery',
         'text!templates/stats.html',
         'common'
 ], function ($, _, Backbone, Movies, Watched, MovieView, WatchedView, statsTemplate, Common) {
-    
+
 	var AppView = Backbone.View.extend({
         searchs: 0,
-        
+
 		el: '#movielistapp',
 
 		template: _.template(statsTemplate),
@@ -51,6 +51,7 @@ define(['jquery',
 		},
 
 		render: function () {
+		    $('#home').addClass('active');
 			var watched = Movies.watched().length;
 			var remaining = Movies.remaining().length;
 			if (Movies.length) {
@@ -61,23 +62,18 @@ define(['jquery',
 					watched: watched,
 					remaining: remaining
 				}));
-				/*
-				this.$('#filters li a')
-					.removeClass('selected')
-					.filter('[href="#/' + (Common.MFilter || '') + '"]')
-					.addClass('selected');*/
-					
+
 			} else {
 				this.$main.hide();
 				this.$footer.hide();
 			}
-			
+
 			if (Watched.length) {
 			    this.$main1.show();
 			} else {
 			    this.$main1.hide();
 			}
-            
+
 			this.allCheckbox.checked = !remaining;
 		},
 
@@ -85,7 +81,7 @@ define(['jquery',
 			var view = new MovieView({ model: movie });
 			$('.list-group').append(view.render().el);
 		},
-		
+
 		addOneWatched: function (watched) {
 			var view = new WatchedView({ model: watched });
 			$('.wlist-group').append(view.render().el);
@@ -95,7 +91,7 @@ define(['jquery',
 			this.$('.list-group').html('');
 			Movies.each(this.addOne, this);
 		},
-		
+
 		addAllWatched: function () {
 			this.$('.wlist-group').html('');
 			Watched.each(this.addOneWatched, this);
@@ -108,7 +104,7 @@ define(['jquery',
 		filterAll: function () {
 			Movies.each(this.filterOne, this);
 		},
-		
+
 		filterOneWatched: function (watched) {
 			watched.trigger('visible');
 		},
@@ -118,7 +114,7 @@ define(['jquery',
 		},
 
 		newAttributes: function (title1, rating) {
-		    
+
 			return {
 				title: title1,
 				order: Movies.nextOrder(),
@@ -126,25 +122,25 @@ define(['jquery',
 				imdbRating: rating
 			};
 		},
-		
+
 		createNew: function (e) {
             var title1 = $(e.srcElement || e.target).attr('select-movie');
             var rating = $('#imdbRating').text();
             var watched = false;
-            
+
             Movies.each(function(model) {
                 if(title1 === model.get('title')) {
                     watched = true;
                     console.log('Alrdy in list!');
                 }
             });
-           
+
             if(watched === false) {
                 Movies.create(this.newAttributes(title1, rating));
                 $('#new-movie').attr("disabled", true);
             }
 		},
-		
+
 		searchOnEnter: function (e) {
 		    if (e.which !== Common.ENTER_KEY ) {
 				return;
@@ -158,7 +154,7 @@ define(['jquery',
             this.searchMovies();
 			this.$input.val('');
 		},
-		
+
 		makeSearch: function (e) {
 		    if(this.searchs === 0) {
 		        $('#searchdiv').attr('class', 'show');
@@ -166,12 +162,12 @@ define(['jquery',
 		    }
             $(".search-list").remove();
             $("#single-movie").empty();
-            
-            
+
+
             this.searchMovies();
             this.$input.val('');
 		},
-       
+
         chooseMovie: function(cMovie)  {
             var disable = '';
             Movies.each(function(model) {
@@ -188,8 +184,8 @@ define(['jquery',
                     }
                 }
             });
-            
-            //get json objects 
+
+            //get json objects
             var m = cMovie;
             $.ajax({
                 url: "http://www.omdbapi.com/?t="+m+"&plot=short",
@@ -200,7 +196,7 @@ define(['jquery',
                     var items = [];
                     $.each( data, function( key, val ) {
                         if (key == 'Title') {
-                            
+
                             items.push('<button id="new-movie" class="btn btn-success" type="button" select-movie="'+val+'" style="float:right;" '+ disable +'>+</button>');
                             items.push( "<h3 id='" + key + "'>" + val + "</h3>" );
                         }
@@ -235,11 +231,11 @@ define(['jquery',
                         else if (key == 'Type') {
                             items.push("<p id='"+ key +"'>Type: "+ val +"</p>");
                         }
-                        
+
                         else if (key == 'Error') {
                             items.push("<h2 id='"+ key +"'>"+ val +"</h2>");
                         }
-                        
+
                     });
                     if(disable === 'disabled') {
                         items.push("<b>Movie already watched or is in watch list!</b>");
@@ -261,10 +257,10 @@ define(['jquery',
                     console.log("NULL");
                 }
             });
-            
-            
+
+
         },
-        
+
         searchMovies: function () {
             //Using xml to get search list..
             var name = this.$input.val();
@@ -274,7 +270,7 @@ define(['jquery',
                 success: function(xml) {
                     var items = [];
                     $(xml).find('Movie').each(function(index){
-            
+
                         if(index < 3) {
                             var title = $(this).attr('Title');
                             var year = $(this).attr('Year');
@@ -289,31 +285,31 @@ define(['jquery',
                         "class": "search-list",
                         html: items.join("")
                     }).appendTo("#search");
-                    
+
                 },
                 error: function(){alert("Error: Something went wrong");}
-                
+
             });
-            
-        
-            
-            
+
+
+
+
         },
-        
+
         choosingMovie: function (e) {
             $("#single-movie").empty();
             this.chooseMovie($(e.srcElement || e.target).attr('data-movie'));
-              
+
         },
-        
+
         showMovie: function (e) {
             $("#single-movie").empty();
             this.chooseMovie($(e.srcElement || e.target).attr('data-movie'));
         },
-        
+
         //TODO: Lägga till så att när alla tas bort läggs de till i watched list!
 		clearWatched: function () {
-		   
+
 			_.invoke(Movies.watched(), 'destroy');
 			return false;
 		},
