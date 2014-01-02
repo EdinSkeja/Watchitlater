@@ -12,7 +12,21 @@
 .list-group li label {
     font-size:14px;
 }
+.wlist-group {
+    list-style-type: none;
 
+}
+.wlist-group li label {
+    font-size:14px;
+}
+
+.wlist-group  {
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 0px;
+}
 .search-list {
     list-style-type: none;
     font-size:14px;
@@ -68,5 +82,9 @@ label.css-label {
     margin: 5px;
 }
 #clear-completed {
+    padding: 6px 12px;
+}
+#new-movie {
+    margin: -10px;
     padding: 6px 12px;
 }

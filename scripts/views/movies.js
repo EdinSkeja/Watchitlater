@@ -1,10 +1,10 @@
-define([
-	'jquery',
-	'underscore',
-	'backbone',
-	'text!templates/movies.html',
-	'common'
-], function ($, _, Backbone, mlistTemplate, Common) {
+define(['jquery',
+        'underscore',
+        'backbone',
+        'collections/watched',
+        'text!templates/movies.html',
+        'common'
+], function ($, _, Backbone, wList, mlistTemplate, Common) {
 
 	var MovieView = Backbone.View.extend({
 
@@ -14,8 +14,7 @@ define([
 
 		events: {
 			'click .css-checkbox':	'toggleWatched',
-			'click #destroy':       'clear',
-            'keypress .edit':       'updateOnEnter'
+			'click #destroy':       'clear'
 		},
 
 		initialize: function () {
@@ -46,9 +45,27 @@ define([
 		toggleWatched: function () {
 			this.model.toggle();
 		},
+		
+		newAttributes: function (title1, date1) {
+			return {
+				title: title1,
+				date: date1
+			};
+		},
 
 		clear: function () {
+            var d = new Date();
+
+            var month = d.getMonth()+1;
+            var day = d.getDate();
+            
+            var output = d.getFullYear() + '/' +
+                ((''+month).length<2 ? '0' : '') + month + '/' +
+                ((''+day).length<2 ? '0' : '') + day;
+            
+                        
 			this.model.destroy();
+			wList.create(this.newAttributes(this.model.get('title'), output));
 		}
 	});
 

@@ -6,29 +6,25 @@ require.config({
 			'underscore': 'vendor/underscore',
 			'backbone': 'vendor/backbone',
 			'backbone.localStorage': 'vendor/backbone.localStorage',
-			'bootstrap': 'vendor/bootstrap',
 			'router': 'vendor/router',
 			'text': 'vendor/text',
-			'backbone-rel': 'vendor/backbone-relational',
+			'bootstrap': 'vendor/bootstrap.min',
 			'backbone-validation': 'vendor/backbone-validation-amd',
 			'json': 'vendor/json'
 	},
     shim: {
-        backbone: {
+        'backbone': {
             deps: ['underscore', 'jquery' ],
             exports: 'backbone'
         },
-        underscore: {
+        'underscore': {
             exports: "_"
         },
-        relational: {
-            deps: ['backbone']
-        },
-        localStorage: {
+        'localStorage': {
             deps: ['backbone'],
             exports: 'store'
         },
-        bootstrap: {
+        'bootstrap': {
             deps: ['jquery']
         }
     }

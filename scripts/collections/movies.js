@@ -1,7 +1,7 @@
-define(["underscore",
-	    "backbone",
-	    "backbone.localStorage",
-	    "models/movie"
+define(['underscore',
+	    'backbone',
+	    'backbone.localStorage',
+	    'models/movie'
 ], function (_, Backbone, Store, Movie) {
 
 	var MoviesCollection = Backbone.Collection.extend({
@@ -10,8 +10,8 @@ define(["underscore",
 		localStorage: new Store('movielist'),
 
 		watched: function () {
-			return this.filter(function (todo) {
-				return todo.get('watched');
+			return this.filter(function (movie) {
+				return movie.get('watched');
 			});
 		},
 
@@ -26,8 +26,8 @@ define(["underscore",
 			return this.last().get('order') + 1;
 		},
 
-		comparator: function (todo) {
-			return todo.get('order');
+		comparator: function (movie) {
+			return movie.get('order');
 		}
 	});
 

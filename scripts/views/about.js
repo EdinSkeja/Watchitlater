@@ -1,8 +1,7 @@
-define([
-	'jquery',
-	'underscore',
-	'backbone',
-	'text!templates/about.html'
+define(['jquery',
+        'underscore',
+        'backbone',
+        'text!templates/about.html'
 ], function ($, _, Backbone, aboutTemplate) { 
     
     var AboutView = Backbone.View.extend({
@@ -16,7 +15,7 @@ define([
         },
 
         render: function() {
-            this.$el.html('');
+            this.$el.empty();
             this.$el.html(this.template(this));
             return this;
         }

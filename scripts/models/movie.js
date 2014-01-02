@@ -1,5 +1,5 @@
-define(["backbone", 
-        "backbone-validation"
+define(['backbone', 
+        'backbone-validation'
 ],  function(Backbone){
     
     var MovieModel = Backbone.Model.extend({
@@ -10,13 +10,12 @@ define(["backbone",
             watched: false
         },
         validation: {
-            title: [
-                    { required: true, msg: "Please enter the name of the movie"}
-            ]
-        }, 
-        setTitle: function(newTitle) {
-            this.set("title", newTitle);
-        },
+                title: [{
+                    required: true,
+                    pattern: 'url',
+                    msg: "Please fill in a URL to a tilesheet"
+                }],
+        },       
         toggle: function () {
             this.save({
                     watched: !this.get('watched')
