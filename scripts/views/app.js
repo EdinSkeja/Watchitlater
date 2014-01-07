@@ -180,7 +180,7 @@ define(['jquery',
             $.ajax({
                 url: "http://www.omdbapi.com/?t="+m+"&plot=short",
                 type: 'GET',
-                dataType: 'json',
+                dataType: 'jsonp',
                 success: function(data) {
                     if(data !== null) {
                     var items = [];
