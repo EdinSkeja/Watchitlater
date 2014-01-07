@@ -179,9 +179,10 @@ define(['jquery',
             var m = cMovie;
             var url = "http://www.omdbapi.com/?t="+m;//+"&callback=?";
            
-            $.jsonp({
+            $.ajax({
+                type: 'GET',
                 url: url,
-                callbackParameter: "callback",
+                dataType: 'json',
                 success: function(data) {
                     if(data !== null) {
                     var items = [];
