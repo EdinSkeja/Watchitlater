@@ -176,9 +176,10 @@ define(['jquery',
             });
 
             //get json objects
+            var url = "http://www.omdbapi.com/?t="+m+"?callback=?";
             var m = cMovie;
             $.ajax({
-                url: "http://www.omdbapi.com/?t="+m+"&plot=short",
+                url: url,
                 type: 'GET',
                 dataType: 'jsonp',
                 success: function(data) {
@@ -204,7 +205,8 @@ define(['jquery',
                         }
                         else if (key == 'Poster') {
                             if(val.length > 4) {
-                                items.push( "<img id='" + key + "' src='" + val + "' class='img-responsive'/>" );
+                                console.log(val)
+                                items.push( "<img id='" + key + "' src='" + val + "'/>" );
                             }
                             else {
                                 items.push( "<img id='" + key + "' src='styles/img/noImage.gif' class='img-responsive'/>" );
