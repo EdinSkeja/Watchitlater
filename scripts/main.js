@@ -10,7 +10,7 @@ require.config({
 			'text': 'vendor/text',
 			'bootstrap': 'vendor/bootstrap.min',
 			'backbone-validation': 'vendor/backbone-validation-amd',
-			'json': 'vendor/json'
+			'jsonp': 'vendor/jsonp'
 	},
     shim: {
         'backbone': {
@@ -25,6 +25,9 @@ require.config({
             exports: 'store'
         },
         'bootstrap': {
+            deps: ['jquery']
+        },
+        'jsonp': {
             deps: ['jquery']
         }
     }

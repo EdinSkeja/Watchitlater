@@ -7,8 +7,8 @@ define(['jquery',
         'views/watched',
         'text!templates/count.html',
         'common',
-        'bootstrap'
-], function ($, _, Backbone, Movies, Watched, MovieView, WatchedView, countTemplate, Common, bs) {
+        'jsonp'
+], function ($, _, Backbone, Movies, Watched, MovieView, WatchedView, countTemplate, Common, jsonp) {
 
 	var AppView = Backbone.View.extend({
         searchs: 0,
@@ -176,12 +176,12 @@ define(['jquery',
             });
 
             //get json objects
-            var url = "http://www.omdbapi.com/?t="+m+"?callback=?";
             var m = cMovie;
-            $.ajax({
+            var url = "http://www.omdbapi.com/?t="+m;//+"&callback=?";
+           
+            $.jsonp({
                 url: url,
-                type: 'GET',
-                dataType: 'jsonp',
+                callbackParameter: "callback",
                 success: function(data) {
                     if(data !== null) {
                     var items = [];
@@ -205,7 +205,6 @@ define(['jquery',
                         }
                         else if (key == 'Poster') {
                             if(val.length > 4) {
-                                console.log(val)
                                 items.push( "<img id='" + key + "' src='" + val + "'/>" );
                             }
                             else {
@@ -256,7 +255,8 @@ define(['jquery',
         searchMovies: function () {
             //Using xml to get search list..
             var name = this.$input.val();
-            $.ajax({type: "GET",
+            $.ajax({
+                type: "GET",
                 url: "http://www.omdbapi.com/?s="+name+"&r=xml",
                 dataType: "xml",
                 success: function(xml) {
