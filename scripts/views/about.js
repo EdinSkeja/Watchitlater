@@ -6,18 +6,18 @@ define(['jquery',
     
     var AboutView = Backbone.View.extend({
         
-        el: '#movielistapp',
+        el: '#aboutcontent',
         
         template: _.template(aboutTemplate),
 
         initialize: function() {
-
+            this.render();
         },
 
         render: function() {
-            $('#home').toggleClass('notactive')
+           
+            $('#home').removeClass('active')
             $('#about').addClass('active');
-            this.$el.empty();
             this.$el.html(this.template(this));
             return this;
         }

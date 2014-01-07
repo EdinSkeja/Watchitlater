@@ -12,9 +12,8 @@ define(['backbone',
         validation: {
                 title: [{
                     required: true,
-                    pattern: 'url',
-                    msg: "Please fill in a URL to a tilesheet"
-                }],
+                    msg: "Please fill in a title"
+                }]
         },       
         toggle: function () {
             this.save({

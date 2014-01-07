@@ -7,16 +7,16 @@ define(['backbone',
 ], function(Backbone, _, $, AppView, AboutView) {
     
     var router = Backbone.Router.extend({
-
+        
         routes: {
             "": "index",
             "about": "about"
         },
         index: function() {
-            new AppView();
+            new AppView({ el: $('#movielistapp')});
         },
         about: function() {
-            new AboutView();
+            new AboutView({ el: $('#aboutcontent')});
         }
         
         

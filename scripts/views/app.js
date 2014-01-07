@@ -5,16 +5,15 @@ define(['jquery',
         'collections/watched',
         'views/movies',
         'views/watched',
-        'text!templates/stats.html',
-        'common'
-], function ($, _, Backbone, Movies, Watched, MovieView, WatchedView, statsTemplate, Common) {
+        'text!templates/count.html',
+        'common',
+        'bootstrap'
+], function ($, _, Backbone, Movies, Watched, MovieView, WatchedView, countTemplate, Common, bs) {
 
 	var AppView = Backbone.View.extend({
         searchs: 0,
-
-		el: '#movielistapp',
-
-		template: _.template(statsTemplate),
+        
+		template: _.template(countTemplate),
 
 		events: {
             'click #search-btn':        'makeSearch',
@@ -23,7 +22,8 @@ define(['jquery',
 			'click #toggle-all':		'toggleAllWatched',
 			'click #new-movie':         'createNew',
 			'click #choose-movie':      'choosingMovie',
-			'dblclick .css-label':      'showMovie'
+			'click .showwatched':       'showMovie',
+            'click .linktomovie':       'showMovie'
 		},
 
 		initialize: function () {
@@ -38,12 +38,9 @@ define(['jquery',
 
 			this.listenTo(Movies, 'add', this.addOne);
 			this.listenTo(Movies, 'reset', this.addAll);
-			this.listenTo(Movies, 'change:watched', this.filterOne);
-			this.listenTo(Movies, 'filter', this.filterAll);
 			this.listenTo(Movies, 'all', this.render);
 			this.listenTo(Watched, 'add', this.addOneWatched);
 			this.listenTo(Watched, 'reset', this.addAllWatched);
-			this.listenTo(Watched, 'filter', this.filterAllWatched);
 			this.listenTo(Watched, 'all', this.render);
 
 			Movies.fetch();
@@ -51,7 +48,8 @@ define(['jquery',
 		},
 
 		render: function () {
-		    $('#home').addClass('active');
+		    $('#about').removeClass('active')
+            $('#home').addClass('active');
 			var watched = Movies.watched().length;
 			var remaining = Movies.remaining().length;
 			if (Movies.length) {
@@ -96,23 +94,7 @@ define(['jquery',
 			this.$('.wlist-group').html('');
 			Watched.each(this.addOneWatched, this);
 		},
-
-		filterOne: function (movie) {
-			movie.trigger('visible');
-		},
-
-		filterAll: function () {
-			Movies.each(this.filterOne, this);
-		},
-
-		filterOneWatched: function (watched) {
-			watched.trigger('visible');
-		},
-
-		filterAllWatched: function () {
-			Watched.each(this.filterOneWatched, this);
-		},
-
+	
 		newAttributes: function (title1, rating) {
 
 			return {
@@ -120,6 +102,14 @@ define(['jquery',
 				order: Movies.nextOrder(),
 				watched: false,
 				imdbRating: rating
+			};
+		},
+		
+		newAttributesWatched: function (title1, date1) {
+
+		    return {
+				title: title1,
+				date: date1
 			};
 		},
 
@@ -214,10 +204,10 @@ define(['jquery',
                         }
                         else if (key == 'Poster') {
                             if(val.length > 4) {
-                                items.push( "<img id='" + key + "' src='" + val + "'>" );
+                                items.push( "<img id='" + key + "' src='" + val + "' class='img-responsive'/>" );
                             }
                             else {
-                                items.push( "<img id='" + key + "' src='styles/img/noImage.gif'/>" );
+                                items.push( "<img id='" + key + "' src='styles/img/noImage.gif' class='img-responsive'/>" );
                             }
                         }
                         else if (key == 'imdbRating') {
@@ -307,10 +297,24 @@ define(['jquery',
             this.chooseMovie($(e.srcElement || e.target).attr('data-movie'));
         },
 
-        //TODO: Lägga till så att när alla tas bort läggs de till i watched list!
+        //TODO: Lägga till så att när alla tas bort läggs de till i watched list! - DONE
 		clearWatched: function () {
+	        var d = new Date();
 
+            var month = d.getMonth()+1;
+            var day = d.getDate();
+            
+            var output = d.getFullYear() + '/' +
+                ((''+month).length<2 ? '0' : '') + month + '/' +
+                ((''+day).length<2 ? '0' : '') + day;
+            
+            var that = this;            
+            Movies.each(function (movie) {
+				Watched.create(that.newAttributesWatched(movie.get('title'), output));
+			});
 			_.invoke(Movies.watched(), 'destroy');
+			
+			
 			return false;
 		},
 
