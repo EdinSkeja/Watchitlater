@@ -178,7 +178,7 @@ define(['jquery',
             //get json objects
             var m = cMovie;
             var url = "http://www.omdbapi.com/?t="+m;//+"&callback=?";
-           
+           var src = "";
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -206,7 +206,8 @@ define(['jquery',
                         }
                         else if (key == 'Poster') {
                             if(val.length > 4) {
-                                items.push( "<img id='" + key + "' src='" + val + "'/>" );
+                                items.push( "<img id='" + key + "' src='http://ia.media-imdb.com/images/M/MV5BMTY5MzYzNjc5NV5BMl5BanBnXkFtZTYwNTUyNTc2._V1_SY264_CR0,0,178,264_.jpg'/>" );
+                                
                             }
                             else {
                                 items.push( "<img id='" + key + "' src='styles/img/noImage.gif' class='img-responsive'/>" );
