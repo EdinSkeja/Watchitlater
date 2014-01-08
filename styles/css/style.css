@@ -55,7 +55,7 @@
 }
 #Poster {
     float:left;
-    height: 260px;
+    width: 175px;
     margin: 5px;
 }
 #clear-completed {

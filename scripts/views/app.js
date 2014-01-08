@@ -178,7 +178,7 @@ define(['jquery',
             //get json objects
             var m = cMovie;
             var url = "http://www.omdbapi.com/?t="+m;//+"&callback=?";
-           var src = "";
+            var src = "";
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -206,11 +206,11 @@ define(['jquery',
                         }
                         else if (key == 'Poster') {
                             if(val.length > 4) {
-                                items.push( "<img id='" + key + "' src='http://ia.media-imdb.com/images/M/MV5BMTY5MzYzNjc5NV5BMl5BanBnXkFtZTYwNTUyNTc2._V1_SY264_CR0,0,178,264_.jpg'/>" );
-                                
+                                items.push( "<img id='" + key + "'/>" );
+                                src = val ;
                             }
                             else {
-                                items.push( "<img id='" + key + "' src='styles/img/noImage.gif' class='img-responsive'/>" );
+                                items.push( "<img id='" + key + "' src='styles/img/noImage.gif'/>" );
                             }
                         }
                         else if (key == 'imdbRating') {
@@ -245,6 +245,7 @@ define(['jquery',
                         html: items[0] + items[6] + items[1] + items[8] + items[7] + items[2] + items[3] + items[4] + items[5] + items[9]
                     }).appendTo( "#single-movie" );
                     $('#Type').css('textTransform', 'capitalize');
+                    $("#Poster").attr("src", src);
                 }
                 else
                     console.log("NULL");
