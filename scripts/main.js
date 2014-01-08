@@ -2,15 +2,15 @@ require.config({
     //enforceDefine: true,
 	baseUrl: "scripts/",
 	paths: {
-			'jquery': 'vendor/jquery',
-			'underscore': 'vendor/underscore',
-			'backbone': 'vendor/backbone',
+			'jquery':                'vendor/jquery',
+			'underscore':            'vendor/underscore',
+		    'backbone':              'vendor/backbone',
 			'backbone.localStorage': 'vendor/backbone.localStorage',
-			'router': 'vendor/router',
-			'text': 'vendor/text',
-			'bootstrap': 'vendor/bootstrap.min',
-			'backbone-validation': 'vendor/backbone-validation-amd',
-			'jsonp': 'vendor/jsonp'
+			'router':                'vendor/router',
+	        'text':                  'vendor/text',
+		    'bootstrap':             'vendor/bootstrap',
+			'backbone-validation':   'vendor/backbone-validation-amd',
+			'jsonp':                 'vendor/jsonp'
 	},
     shim: {
         'backbone': {

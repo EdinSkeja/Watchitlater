@@ -7,8 +7,8 @@ define(['jquery',
         'views/watched',
         'text!templates/count.html',
         'common',
-        'jsonp'
-], function ($, _, Backbone, Movies, Watched, MovieView, WatchedView, countTemplate, Common, jsonp) {
+        'bootstrap'
+], function ($, _, Backbone, Movies, Watched, MovieView, WatchedView, countTemplate, Common, boot) {
 
 	var AppView = Backbone.View.extend({
         searchs: 0,
@@ -207,6 +207,7 @@ define(['jquery',
                         else if (key == 'Poster') {
                             if(val.length > 4) {
                                 items.push( "<img id='" + key + "'/>" );
+                                localStorage.setItem("image", val);
                                 src = val ;
                             }
                             else {
@@ -245,7 +246,8 @@ define(['jquery',
                         html: items[0] + items[6] + items[1] + items[8] + items[7] + items[2] + items[3] + items[4] + items[5] + items[9]
                     }).appendTo( "#single-movie" );
                     $('#Type').css('textTransform', 'capitalize');
-                    $("#Poster").attr("src", src);
+                    console.log(src);
+                    $("#Poster").attr("src", localStorage.getItem('image'));
                 }
                 else
                     console.log("NULL");
