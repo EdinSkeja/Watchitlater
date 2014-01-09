@@ -55,7 +55,7 @@
 }
 #Poster {
     float:left;
-    width: 175px;
+    width: 185px;
     margin: 5px;
 }
 #clear-completed {
@@ -66,7 +66,7 @@
     padding: 6px 12px;
 }
 #single-movie .well {
-   /* min-height: 300px;*/
+    min-height: 320px;
 }
 
 /*general styles for all CSS Checkboxes*/
