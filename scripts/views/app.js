@@ -6,11 +6,11 @@ define(['jquery',
         'views/movies',
         'views/watched',
         'text!templates/count.html',
-        'common',
-        'bootstrap'
-], function ($, _, Backbone, Movies, Watched, MovieView, WatchedView, countTemplate, Common, boot) {
+        'common'
+], function ($, _, Backbone, Movies, Watched, MovieView, WatchedView, countTemplate, Common) {
 
 	var AppView = Backbone.View.extend({
+        
         searchs: 0,
         
 		template: _.template(countTemplate),
@@ -21,7 +21,7 @@ define(['jquery',
 			'click #clear-completed':	'clearWatched',
 			'click #toggle-all':		'toggleAllWatched',
 			'click #new-movie':         'createNew',
-			'click #choose-movie':      'choosingMovie',
+			'click #choose-movie':      'showMovie',
 			'click .showwatched':       'showMovie',
             'click .linktomovie':       'showMovie'
 		},
@@ -112,12 +112,13 @@ define(['jquery',
 				date: date1
 			};
 		},
-
+        
+        //Skapa ny till watch list
 		createNew: function (e) {
             var title1 = $(e.srcElement || e.target).attr('select-movie');
             var rating = $('#imdbRating').text();
             var watched = false;
-
+            //Kollar så att filmen inte finns i nån lista..
             Movies.each(function(model) {
                 if(title1 === model.get('title')) {
                     watched = true;
@@ -130,7 +131,8 @@ define(['jquery',
                 $('#new-movie').attr("disabled", true);
             }
 		},
-
+        
+        //Göra en sökning när man trycker enter
 		searchOnEnter: function (e) {
 		    if (e.which !== Common.ENTER_KEY ) {
 				return;
@@ -139,35 +141,40 @@ define(['jquery',
 		        $('#searchdiv').attr('class', 'show');
 		        this.searchs++;
 		    }
+		    
 			$(".search-list").remove();
 			$("#single-movie").empty();
             this.searchMovies();
 			this.$input.val('');
 		},
-
+		
+        //Göra en sökning
 		makeSearch: function (e) {
+		    //Visa search list om man gör en sökning
 		    if(this.searchs === 0) {
 		        $('#searchdiv').attr('class', 'show');
 		        this.searchs++;
 		    }
+		    
             $(".search-list").remove();
             $("#single-movie").empty();
-
-
             this.searchMovies();
             this.$input.val('');
 		},
-
+        
+        //Hämta vald film med json
         chooseMovie: function(cMovie)  {
             var disable = '';
+            //Kollar om filmen finns i watch list
             Movies.each(function(model) {
                 if(cMovie === model.get('title')) {
                     disable = 'disabled';
                 }
             });
+            //Kollar om filmen finns i watched list
             Watched.each(function(model) {
                 if (disable === 'disabled') {
-                    console.log('not in watch list but maybe alrdy watched')
+                    
                 } else {
                     if(cMovie === model.get('title')) {
                         disable = 'disabled';
@@ -175,16 +182,15 @@ define(['jquery',
                 }
             });
 
-            //get json objects
             var m = cMovie;
-            var url = "http://www.omdbapi.com/?t="+m;//+"&callback=?";
-            var src = "";
+            var url = "http://www.omdbapi.com/";
             $.ajax({
                 type: 'GET',
                 url: url,
+                data: {t: m},
                 dataType: 'json',
                 success: function(data) {
-                    if(data !== null) {
+                    if(data) {
                     var items = [];
                     $.each( data, function( key, val ) {
                         if (key == 'Title') {
@@ -206,9 +212,7 @@ define(['jquery',
                         }
                         else if (key == 'Poster') {
                             if(val.length > 4) {
-                                items.push( "<img id='" + key + "'/>" );
-                                localStorage.setItem("image", val);
-                                src = val ;
+                                items.push( "<img id='" + key + "' src='http://eddmedia.se/getimg.php?url="+ val +"'/>" );
                             }
                             else {
                                 items.push( "<img id='" + key + "' src='styles/img/noImage.gif'/>" );
@@ -246,23 +250,25 @@ define(['jquery',
                         html: items[0] + items[6] + items[1] + items[8] + items[7] + items[2] + items[3] + items[4] + items[5] + items[9]
                     }).appendTo( "#single-movie" );
                     $('#Type').css('textTransform', 'capitalize');
-                    console.log(src);
-                    $("#Poster").attr("src", localStorage.getItem('image'));
                 }
-                else
-                    console.log("NULL");
+                },
+                error: function() {
+                    alert("Error: Something went wrong");
                 }
             });
 
 
         },
-
+        
+        //Hämtar 3 filmer och presenterar i search list
         searchMovies: function () {
             //Using xml to get search list..
             var name = this.$input.val();
+            var url = "http://www.omdbapi.com/?r=xml";
             $.ajax({
                 type: "GET",
-                url: "http://www.omdbapi.com/?s="+name+"&r=xml",
+                url: url,
+                data: {s: name},
                 dataType: "xml",
                 success: function(xml) {
                     var items = [];
@@ -272,7 +278,6 @@ define(['jquery',
                             var title = $(this).attr('Title');
                             var year = $(this).attr('Year');
                             items.push('<li class="well"><button id="choose-movie" type="button" class="btn btn-primary" data-movie="'+ title+'">&#187;</button><label style=" margin: 10px;">'+title+' ('+year+')</label></li>');
-                          //  $('#search').append('<li>'+title+'('+year+')</li>');
                         }
                     });
                     $(xml).find('error').each(function(index){
@@ -284,7 +289,9 @@ define(['jquery',
                     }).appendTo("#search");
 
                 },
-                error: function(){alert("Error: Something went wrong");}
+                error: function(){
+                    alert("Error: Something went wrong");
+                }
 
             });
 
@@ -293,18 +300,13 @@ define(['jquery',
 
         },
 
-        choosingMovie: function (e) {
-            $("#single-movie").empty();
-            this.chooseMovie($(e.srcElement || e.target).attr('data-movie'));
-
-        },
-
+        //Visa vald film
         showMovie: function (e) {
             $("#single-movie").empty();
             this.chooseMovie($(e.srcElement || e.target).attr('data-movie'));
         },
 
-        //TODO: Lägga till så att när alla tas bort läggs de till i watched list! - DONE
+        //Tar bort filmer från watch list och lägger dom i watched list!
 		clearWatched: function () {
 	        var d = new Date();
 
@@ -324,7 +326,8 @@ define(['jquery',
 			
 			return false;
 		},
-
+        
+        // alla filmer i watch list blir markerade som watched
 		toggleAllWatched: function () {
 			var watched = this.allCheckbox.checked;
 

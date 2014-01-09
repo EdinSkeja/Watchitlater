@@ -1,5 +1,4 @@
-define(["backbone", 
-        "backbone-validation"
+define(["backbone"
 ],  function(Backbone){
     
     var WatchedModel = Backbone.Model.extend({

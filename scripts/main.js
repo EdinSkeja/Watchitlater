@@ -8,9 +8,7 @@ require.config({
 			'backbone.localStorage': 'vendor/backbone.localStorage',
 			'router':                'vendor/router',
 	        'text':                  'vendor/text',
-		    'bootstrap':             'vendor/bootstrap',
-			'backbone-validation':   'vendor/backbone-validation-amd',
-			'jsonp':                 'vendor/jsonp'
+		    'bootstrap':             'vendor/bootstrap'
 	},
     shim: {
         'backbone': {
@@ -25,9 +23,6 @@ require.config({
             exports: 'store'
         },
         'bootstrap': {
-            deps: ['jquery']
-        },
-        'jsonp': {
             deps: ['jquery']
         }
     }
