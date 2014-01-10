@@ -28,7 +28,8 @@ require.config({
     }
 });
 
-require(['backbone','routers/router'], function(Backbone, Router) {
-    new Router();
+require(['backbone','views/app'], function(Backbone, app) {
+    var container = $('#movielistapp');
+    new app({el: container});
     Backbone.history.start();
 });

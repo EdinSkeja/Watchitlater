@@ -6,9 +6,6 @@
         
         <title>Watch it later</title>
         
-        <link href="styles/css/yeti.css" rel="stylesheet">
-        <link href="styles/css/style.css" rel="stylesheet">
-        
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=0" />
         <meta name="description" content="RIA, JavaScript">
         <meta name="author" content="Edin Skeja">
@@ -18,12 +15,14 @@
         <link rel="apple-touch-icon" href="styles/img/icon.png"/>  
         
         <!-- iPhone LAUNCHSCREEN-->
-        <link href="styles/img/splash.png" sizes="320x480" media="(device-height: 480px)" rel="apple-touch-startup-image">
+        <link href="styles/img/splash.png" sizes="320x480" rel="apple-touch-startup-image">
         <!-- iPhone (Retina) LAUNCHSCREEN-->
-        <link href="styles/img/splash2X.png" sizes="640x920" media="(device-height: 480px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+        <link href="styles/img/splash2X.png" sizes="640x920" rel="apple-touch-startup-image">
         <!-- iPhone 5+ LAUNCHSCREEN-->
-        <link href="styles/img/splash2X+.png" sizes="640x1136" media="(device-height: 568px)" rel="apple-touch-startup-image">
+        <link href="styles/img/splash2X+.png" sizes="640x1136" rel="apple-touch-startup-image">
                 
+        <link href="styles/css/yeti.css" rel="stylesheet">
+        <link href="styles/css/style.css" rel="stylesheet">
         
         
     </head>
@@ -32,25 +31,14 @@
         <div class="container">
             <div class="navbar navbar-inverse">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="navbar-inverse-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
                     <a class="navbar-brand" href="#">Watch it later</a>
                 </div>
                 <div class="navbar-collapse collapse navbar-inverse-collapse">
-                    <ul class="nav navbar-nav">
-                        <li id="home"><a href="#">Home</a></li>
-                        <li id="about"><a href="#about">About</a></li>
-                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="http://edport.se">Written by Edin</a></li>
                     </ul>
                 </div><!-- /.nav-collapse -->
             </div>
-       
-            
             <section id="movielistapp">
            
                 <div class="row">
@@ -117,12 +105,6 @@
         			    </section>
         			</div>
     			</div>
-    			
-    			
-    			<footer id="footer"></footer>
-    		</section>
-    		<section id="aboutcontent">
-    		    
     		</section>
         </div>
     <script data-main="scripts/main.js" src="scripts/vendor/require.js"></script>

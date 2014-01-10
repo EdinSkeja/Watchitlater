@@ -16,7 +16,7 @@ define(['backbone',
             new AppView({ el: $('#movielistapp')});
         },
         about: function() {
-            new AboutView({ el: $('#aboutcontent')});
+            new AboutView({ el: $('#movielistapp')});
         }
         
         
