@@ -317,13 +317,14 @@ define(['jquery',
                 ((''+month).length<2 ? '0' : '') + month + '/' +
                 ((''+day).length<2 ? '0' : '') + day;
             
-            var that = this;            
+            var that = this;
             Movies.each(function (movie) {
-				Watched.create(that.newAttributesWatched(movie.get('title'), output));
+                if(movie.get('watched') === true)
+                   Watched.create(that.newAttributesWatched(movie.get('title'), output));
 			});
+			
 			_.invoke(Movies.watched(), 'destroy');
-			
-			
+
 			return false;
 		},
         
