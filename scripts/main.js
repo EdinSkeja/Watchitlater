@@ -8,8 +8,10 @@ require.config({
 			'backbone.localStorage': 'vendor/backbone.localStorage',
 			'router':                'vendor/router',
 	        'text':                  'vendor/text',
-		    'bootstrap':             'vendor/bootstrap'
+		    'bootstrap':             'vendor/bootstrap',
+            'router':                'routers/router'
 	},
+
     shim: {
         'backbone': {
             deps: ['underscore', 'jquery' ],
@@ -28,8 +30,8 @@ require.config({
     }
 });
 
-require(['backbone','views/app'], function(Backbone, app) {
+require(['backbone', 'router'], function(Backbone, Router) {
     var container = $('#movielistapp');
-    new app({el: container});
+    var router = new Router({el: container});
     Backbone.history.start();
 });
